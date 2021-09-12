@@ -1,6 +1,6 @@
 <template>
     <div>
-        <img :src="p.image" class="room-img" alt="">
+        <img @click="$emit('openDetail', p.id)" :src="p.image" class="room-img" alt="">
         <h4>{{ p.title }}</h4>
         <p>{{ p.price }}원</p>
     </div>
