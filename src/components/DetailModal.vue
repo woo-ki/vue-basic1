@@ -4,7 +4,9 @@
             <img class="w100p" :src="products[viewIdx].image" alt="">
             <h4>{{ products[viewIdx].title }}</h4>
             <p>{{ products[viewIdx].content }}</p>
-            <p>{{ products[viewIdx].price }} 원</p>
+            <!--<input @input="month = $event.target.value">-->
+            <input v-model.number="month">
+            <p> {{ month }}개월 선택함 : {{ month * products[viewIdx].price }} 원</p>
             <button @click="$emit('closeDetail')">닫기</button>
         </div>
     </div>
@@ -13,6 +15,11 @@
 <script>
 export default {
     name: "DetailModal",
+    data() {
+        return {
+            month: 1
+        }
+    },
     props: {
         products: Array,
         detailIsOpened: Boolean,
