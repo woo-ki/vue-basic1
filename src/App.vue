@@ -1,6 +1,9 @@
 <template>
 
-    <DetailModal @closeDetail="closeDetail()" :products="products" :detailIsOpened="detailIsOpened" :viewIdx="viewIdx"/>
+    <transition name="fade">
+        <DetailModal @closeDetail="closeDetail()" :products="products" :detailIsOpened="detailIsOpened"
+                     :viewIdx="viewIdx"/>
+    </transition>
 
     <div class="menu">
         <a href="" v-for="(menu, i) in menus" :key="i">{{ menu }}</a>
@@ -47,6 +50,18 @@ export default {
 </script>
 
 <style>
+.fade-enter-from, .fade-leave-to {
+    opacity: 0;
+}
+
+.fade-enter-active, .fade-leave-active {
+    transition: all 1s;
+}
+
+.fade-enter-to, .fade-leave-from {
+    opacity: 1;
+}
+
 .menu {
     background: darkslateblue;
     padding: 15px;
