@@ -1,15 +1,10 @@
 <template>
-    <div>
-        <h4>{{ products[0].name }}</h4>
-        <p>{{ products[0].price }} 만원</p>
+    <div class="menu">
+        <a href="" v-for="(menu, i) in menus" :key="i">{{ menu }}</a>
     </div>
-    <div>
-        <h4>{{ products[1].name }}</h4>
-        <p>{{ products[1].price }} 만원</p>
-    </div>
-    <div>
-        <h4>{{ products[2].name }}</h4>
-        <p>{{ products[2].price }} 만원</p>
+    <div v-for="(p, i) in products" :key="i">
+        <h4>{{ p.name }}</h4>
+        <p>{{ p.price }} 만원</p>
     </div>
 </template>
 
@@ -19,6 +14,7 @@ export default {
     name: 'App',
     data() {
         return {
+            menus: ['Home', 'Shop', 'About'],
             products: [
                 {name: '역삼동원룸', price: 60},
                 {name: '천호동원룸', price: 50},
@@ -31,5 +27,15 @@ export default {
 </script>
 
 <style>
+.menu {
+    background: darkslateblue;
+    padding: 15px;
+    border-radius: 5px;
+}
 
+.menu a {
+    color: white;
+    padding: 10px;
+    text-decoration: none;
+}
 </style>
