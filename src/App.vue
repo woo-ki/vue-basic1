@@ -1,12 +1,6 @@
 <template>
-    <div class="black-bg" v-if="detailIsOpened">
-        <div class="white-bg">
-            <h4>{{ products[viewIdx].title }}</h4>
-            <p>{{ products[viewIdx].content }}</p>
-            <p>{{ products[viewIdx].price }} 원</p>
-            <button @click="detailIsOpened = false">닫기</button>
-        </div>
-    </div>
+
+    <DetailModal :products="products" :detailIsOpened="detailIsOpened" :viewIdx="viewIdx"/>
 
     <div class="menu">
         <a href="" v-for="(menu, i) in menus" :key="i">{{ menu }}</a>
@@ -14,17 +8,16 @@
 
     <Discount/>
 
-    <div v-for="(p, i) in products" :key="i">
-        <img :src="p.image" class="room-img" alt="">
-        <h4 @click="openDetail(i)">{{ p.title }}</h4>
-        <p>{{ p.price }}원</p>
-    </div>
+    <OneRoom v-for="(p, i) in products" :key="i" :p="p"/>
+
 </template>
 
 <script>
 
 import products from './assets/js/oneroom.js';
 import Discount from "@/components/Discount";
+import DetailModal from "@/components/DetailModal";
+import OneRoom from "@/components/OneRoom";
 
 export default {
     name: 'App',
@@ -37,12 +30,14 @@ export default {
         }
     },
     methods: {
-        openDetail(i) {
-            this.detailIsOpened = true;
-            this.viewIdx = i;
-        }
+        // openDetail(i) {
+        //     this.detailIsOpened = true;
+        //     this.viewIdx = i;
+        // }
     },
     components: {
+        OneRoom,
+        DetailModal,
         Discount
     }
 }
@@ -61,31 +56,11 @@ export default {
     text-decoration: none;
 }
 
-.room-img {
-    width: 100%;
-    margin-top: 40px;
-}
-
 body {
     margin: 0;
 }
 
 div {
     box-sizing: border-box;
-}
-
-.black-bg {
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    position: fixed;
-    padding: 20px;
-}
-
-.white-bg {
-    width: 100%;
-    background: white;
-    border-radius: 8px;
-    padding: 20px;
 }
 </style>
