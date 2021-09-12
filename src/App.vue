@@ -5,6 +5,8 @@
     <div v-for="(p, i) in products" :key="i">
         <h4>{{ p.name }}</h4>
         <p>{{ p.price }} 만원</p>
+        <button @click="reportProc(p)">허위매물신고</button>
+        <span> 신고수 : {{ p.reportCount }}</span>
     </div>
 </template>
 
@@ -16,10 +18,15 @@ export default {
         return {
             menus: ['Home', 'Shop', 'About'],
             products: [
-                {name: '역삼동원룸', price: 60},
-                {name: '천호동원룸', price: 50},
-                {name: '마포구원룸', price: 70}
+                {name: '역삼동원룸', price: 60, reportCount: 0},
+                {name: '천호동원룸', price: 50, reportCount: 0},
+                {name: '마포구원룸', price: 70, reportCount: 0}
             ],
+        }
+    },
+    methods: {
+        reportProc(p) {
+            p.reportCount++
         }
     },
     components: {}
