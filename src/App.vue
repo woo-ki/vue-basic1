@@ -1,8 +1,9 @@
 <template>
     <div class="black-bg" v-if="detailIsOpened">
         <div class="white-bg">
-            <h4>상세페이지</h4>
-            <p>상세페이지 내용</p>
+            <h4>{{ products[viewIdx].title }}</h4>
+            <p>{{ products[viewIdx].content }}</p>
+            <p>{{ products[viewIdx].price }} 원</p>
             <button @click="detailIsOpened = false">닫기</button>
         </div>
     </div>
@@ -12,15 +13,15 @@
     </div>
 
     <div v-for="(p, i) in products" :key="i">
-        <img :src="p.img_path" alt="" class="room-img">
-        <h4 @click="detailIsOpened = true">{{ p.name }}</h4>
-        <p>{{ p.price }} 만원</p>
-        <button @click="reportProc(p)">허위매물신고</button>
-        <span> 신고수 : {{ p.report_count }}</span>
+        <img :src="p.image" class="room-img" alt="">
+        <h4 @click="openDetail(i)">{{ p.title }}</h4>
+        <p>{{ p.price }}원</p>
     </div>
 </template>
 
 <script>
+
+import products from './assets/js/oneroom.js';
 
 export default {
     name: 'App',
@@ -28,16 +29,14 @@ export default {
         return {
             detailIsOpened: false,
             menus: ['Home', 'Shop', 'About'],
-            products: [
-                {name: '역삼동원룸', price: 60, report_count: 0, img_path: '/room0.jpg'},
-                {name: '천호동원룸', price: 50, report_count: 0, img_path: '/room1.jpg'},
-                {name: '마포구원룸', price: 70, report_count: 0, img_path: '/room2.jpg'}
-            ],
+            products: products,
+            viewIdx: 0
         }
     },
     methods: {
-        reportProc(p) {
-            p.report_count++
+        openDetail(i) {
+            this.detailIsOpened = true;
+            this.viewIdx = i;
         }
     },
     components: {}
