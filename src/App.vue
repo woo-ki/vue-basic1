@@ -9,7 +9,7 @@
         <a href="" v-for="(menu, i) in menus" :key="i">{{ menu }}</a>
     </div>
 
-    <Discount/>
+    <Discount @decreaseDiscount="decreaseDiscount()" :discountRate="discountRate" :discountIsVisible="discountIsVisible"/>
 
     <select id="filter" v-model="filterIdx">
         <option value="0">가격 오름차순</option>
@@ -40,12 +40,14 @@ export default {
     data() {
         return {
             productsOrigin: [...products],
+            discountIsVisible: true,
             detailIsOpened: false,
             menus: ['Home', 'Shop', 'About'],
             products: products,
             viewIdx: 0,
             filterIdx: 0,
             range: 0,
+            discountRate: 30,
         }
     },
     methods: {
@@ -93,6 +95,15 @@ export default {
         },
         revertSort() {
             this.products = [...this.productsOrigin];
+        },
+        decreaseDiscount() {
+            let interval = setInterval(() => {
+                this.discountRate -= 1;
+                if(this.discountRate === 0) {
+                    clearInterval(interval);
+                    this.discountIsVisible = false;
+                }
+            }, 1000);
         }
     },
     components: {

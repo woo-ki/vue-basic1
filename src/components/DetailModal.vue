@@ -41,6 +41,12 @@ export default {
             this.$emit('closeDetail');
             this.month = 1;
         }
+    },
+    beforeUpdate() {
+        if(Number(this.month) === 2) {
+            alert('2개월은 불가능합니다.');
+            this.month = 1;
+        }
     }
 }
 </script>
