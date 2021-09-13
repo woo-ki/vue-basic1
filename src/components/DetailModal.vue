@@ -22,7 +22,7 @@ export default {
     },
     watch: {
         month(v, before) {
-            if(isNaN(v)) {
+            if(isNaN(v) || (v + '').includes('.')) {
                 alert('숫자만 입력 가능합니다.');
                 this.month = before;
             } else if(v >= 13 || v <= 0) {

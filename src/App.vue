@@ -11,6 +11,19 @@
 
     <Discount/>
 
+    <select id="filter" v-model="filterIdx">
+        <option value="0">가격 오름차순</option>
+        <option value="1">가격 내림차순</option>
+        <option value="2">가나다 오름차순</option>
+        <option value="3">가나다 내림차순</option>
+    </select>&nbsp;
+    <button @click="basicSort()">정렬</button>
+    <br>
+    <input type="range" max="50" v-model="range"/>
+    <button @click="removeOverFifty()">{{ range }}만원 이상 삭제</button>
+    <br>
+    <button @click="revertSort()">되돌리기</button>
+
     <OneRoom @openDetail="openDetail($event)" v-for="(p, i) in products" :key="i" :p="p"/>
 
 </template>
@@ -26,10 +39,13 @@ export default {
     name: 'App',
     data() {
         return {
+            productsOrigin: [...products],
             detailIsOpened: false,
             menus: ['Home', 'Shop', 'About'],
             products: products,
-            viewIdx: 0
+            viewIdx: 0,
+            filterIdx: 0,
+            range: 0,
         }
     },
     methods: {
@@ -39,6 +55,44 @@ export default {
         },
         closeDetail() {
             this.detailIsOpened = false;
+        },
+        basicSort() {
+            let t = Number(this.filterIdx);
+            if (t === 0 || t === 1) {
+                this.products.sort(function (a, b) {
+                    return a.price - b.price
+                });
+                if (t === 1) {
+                    this.products.reverse();
+                }
+            } else {
+                this.products.sort(function (a, b) {
+                    let nameA = a.title.toUpperCase(); // ignore upper and lowercase
+                    let nameB = b.title.toUpperCase(); // ignore upper and lowercase
+                    if (nameA < nameB) {
+                        return -1;
+                    }
+                    if (nameA > nameB) {
+                        return 1;
+                    }
+                    // 이름이 같을 경우
+                    return 0;
+                });
+                if (t === 3) {
+                    this.products.reverse();
+                }
+            }
+        },
+        removeOverFifty() {
+            this.products = [...this.productsOrigin];
+
+            let r = this.range * 10000;
+            this.products = this.products.filter(function (item) {
+                return item.price < r
+            })
+        },
+        revertSort() {
+            this.products = [...this.productsOrigin];
         }
     },
     components: {
@@ -75,10 +129,15 @@ export default {
 }
 
 body {
-    margin: 0;
+    margin: 0 auto;
+    width: 100%;
 }
 
 div {
     box-sizing: border-box;
+}
+
+html * {
+    max-width: 540px;
 }
 </style>
